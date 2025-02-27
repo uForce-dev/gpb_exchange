@@ -1,11 +1,13 @@
 import logging
 from flask import Flask, request
 
+from app.constants import BASE_DIR
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler("../logs/app.log"),
+        logging.FileHandler(BASE_DIR / "logs/app.log"),
         logging.StreamHandler()
     ]
 )
