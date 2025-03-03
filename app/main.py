@@ -103,7 +103,7 @@ def check_avail():
         purchase_data={
             "account_id": "A63B977540D5622AAB6B",
             "longDesc": "test",
-            "amount": "1000",
+            "amount": str(int(request.args.get("o.amount", 0)) * 100),
             "fee": "0",
             "currency": "643",
             "exponent": "2",
