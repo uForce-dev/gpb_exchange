@@ -63,12 +63,26 @@ def create_cpa_res(
     return ET.tostring(root, encoding="utf-8", method="xml")
 
 
+def create_rp_req(
+    result_code, result_desc=None,
+):
+    root = ET.Element("register-payment-response")
+
+    result = ET.SubElement(root, "result")
+    code = ET.SubElement(result, "code")
+    code.text = str(result_code)
+
+    if result_desc is not None:
+        desc = ET.SubElement(result, "desc")
+        desc.text = str(result_desc)
+
+    return ET.tostring(root, encoding="utf-8", method="xml")
+
+
 @app.route("/gpb/check-avail", methods=["GET", "POST"])
 def check_avail():
     logger.info("Received request on /gpb/check-avail")
-    logger.info("Request data: %s", request.data)
     logger.info("Request args: %s", request.args)
-    logger.info("Request form: %s", request.form)
 
     # Сейчас всегда возвращается успешный ответ.
     xml_response = create_cpa_res(
@@ -91,10 +105,14 @@ def check_avail():
 @app.route("/gpb/payment-reg", methods=["GET", "POST"])
 def payment_reg():
     logger.info("Received request on /gpb/payment-reg")
-    logger.info("Request data: %s", request.data)
     logger.info("Request args: %s", request.args)
-    logger.info("Request form: %s", request.form)
-    return "payment_reg"
+
+    # Сейчас всегда возвращается успешный ответ.
+    xml_response = create_rp_req(
+        result_code=1,
+    )
+
+    return Response(xml_response, mimetype="application/xml")
 
 
 if __name__ == "__main__":
