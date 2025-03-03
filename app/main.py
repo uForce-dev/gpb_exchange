@@ -101,7 +101,7 @@ def check_avail():
         result_code=1,
         result_desc="Payment is available",
         purchase_data={
-            "account_id": uuid.uuid4().hex,
+            "account_id": "A63B977540D5622AAB6B",
             "longDesc": "test",
             "amount": "1000",
             "fee": "0",
