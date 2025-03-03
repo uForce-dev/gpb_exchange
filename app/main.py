@@ -38,8 +38,10 @@ def create_cpa_res(
     if result_code == 1 and purchase_data:
         purchase = ET.SubElement(root, "purchase")
 
-        short_desc = ET.SubElement(purchase, "shortDesc")
-        short_desc.text = purchase_data.get("shortDesc", "")
+        short_desc_text = purchase_data.get("shortDesc", "")
+        if short_desc_text:
+            short_desc = ET.SubElement(purchase, "shortDesc")
+            short_desc.text = purchase_data.get("shortDesc", "")
 
         long_desc = ET.SubElement(purchase, "longDesc")
         long_desc.text = purchase_data.get("longDesc", "")
@@ -87,8 +89,7 @@ def check_avail():
     # Сейчас всегда возвращается успешный ответ.
     xml_response = create_cpa_res(
         result_code=1,
-        result_desc="",
-        merchant_trx=request.args.get("trx_id"),
+        result_desc="Payment is available",
         purchase_data={
             "account_id": uuid.uuid4().hex,
             "longDesc": "test",
@@ -110,6 +111,7 @@ def payment_reg():
     # Сейчас всегда возвращается успешный ответ.
     xml_response = create_rp_req(
         result_code=1,
+        result_desc="OK",
     )
 
     return Response(xml_response, mimetype="application/xml")
