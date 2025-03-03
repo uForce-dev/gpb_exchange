@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+
+           elementFormDefault="unqualified" attributeFormDefault="unqualified">
+
+
+    <xs:element name="payment-avail-response">
+
+        <xs:complexType>
+
+            <xs:complexContent>
+
+                <xs:extension base="merchant-response">
+
+                    <xs:all>
+
+                        <xs:element name="result">
+
+                            <xs:complexType>
+
+                                <xs:all>
+
+                                    <xs:element type="xs:int" name="code"/>
+
+                                    <xs:element type="xs:string" name="desc" minOccurs="0"/>
+
+                                </xs:all>
+
+                            </xs:complexType>
+
+                        </xs:element>
+
+                        <xs:element type="xs:string" name="merchant-trx" minOccurs="0"/>
+
+                        <xs:element type="xs:string" name="submerchant" minOccurs="0"/>
+
+                        <xs:element name="addCardAllowed" minOccurs="0">
+
+                            <xs:simpleType>
+
+                                <xs:restriction base="xs:string">
+
+                                    <xs:pattern value="([YN])"/>
+
+                                </xs:restriction>
+
+                            </xs:simpleType>
+
+                        </xs:element>
+
+                        <xs:element name="transaction-type" minOccurs="0">
+
+                            <xs:simpleType>
+
+                                <xs:restriction base="xs:string">
+
+                                    <xs:pattern value="(CardRegister|Payment|AFT|OCT|P2P)"/>
+
+                                </xs:restriction>
+
+                            </xs:simpleType>
+
+                        </xs:element>
+
+
+                        <xs:element type="xs:string" name="RegisterRecurrent" minOccurs="0"/>
+
+
+                        <xs:element name="card" minOccurs="0">
+
+                            <xs:complexType>
+
+                                <xs:all>
+
+                                    <xs:element name="id" type="xs:string" minOccurs="0"/>
+
+                                    <xs:element name="trx-id" type="xs:string" minOccurs="0"/>
+
+                                    <xs:element name="ref" type="xs:string" minOccurs="0"/>
+
+                                    <xs:element name="present" minOccurs="0">
+
+                                        <xs:simpleType>
+
+                                            <xs:restriction base="xs:string">
+
+                                                <xs:pattern value="([YN])"/>
+
+                                            </xs:restriction>
+
+                                        </xs:simpleType>
+
+                                    </xs:element>
+
+                                </xs:all>
+
+                            </xs:complexType>
+
+                        </xs:element>
+
+
+                        <xs:element name="purchase" minOccurs="0">
+
+                            <xs:complexType>
+
+                                <xs:all>
+
+                                    <xs:element type="xs:string" name="shortDesc" minOccurs="0"/>
+
+                                    <xs:element type="xs:string" name="longDesc"/>
+
+
+                                    <xs:element name="account-amount">
+
+                                        <xs:complexType>
+
+                                            <xs:all>
+
+                                                <xs:element type="xs:string" name="id" minOccurs="0"/>
+
+                                                <xs:element type="xs:long" name="amount"/>
+
+                                                <xs:element type="xs:long" name="fee" minOccurs="0"/>
+
+                                                <xs:element type="xs:int" name="currency"/>
+
+                                                <xs:element type="xs:int" name="exponent"/>
+
+                                            </xs:all>
+
+                                        </xs:complexType>
+
+                                    </xs:element>
+
+
+                                    <xs:element name="items" minOccurs="0">
+
+                                        <xs:complexType>
+
+                                            <xs:sequence>
+
+                                                <xs:element name="item" maxOccurs="unbounded">
+
+                                                    <xs:complexType>
+
+                                                        <xs:sequence>
+
+                                                            <xs:element name="field" minOccurs="0"
+
+                                                                        maxOccurs="unbounded">
+
+                                                                <xs:complexType>
+
+                                                                    <xs:attribute type="xs:string" name="name"/>
+
+                                                                    <xs:attribute type="xs:string" name="value"/>
+
+                                                                </xs:complexType>
+
+                                                            </xs:element>
+
+                                                        </xs:sequence>
+
+                                                        <xs:attribute type="xs:long" name="commission"/>
+
+                                                        <xs:attribute type="xs:string" name="currency"/>
+
+                                                        <xs:attribute type="xs:string" name="name"/>
+
+                                                        <xs:attribute type="xs:long" name="price"/>
+
+                                                        <xs:attribute type="xs:int" name="quantity"/>
+
+                                                        <xs:attribute type="xs:long" name="sum"/>
+
+                                                    </xs:complexType>
+
+                                                </xs:element>
+
+                                            </xs:sequence>
+
+                                        </xs:complexType>
+
+                                    </xs:element>
+
+                                </xs:all>
+
+                            </xs:complexType>
+
+                        </xs:element>
+
+
+                        <xs:element name="order-params" minOccurs="0">
+
+                            <xs:complexType>
+
+                                <xs:sequence>
+
+                                    <xs:element name="param" maxOccurs="unbounded">
+
+                                        <xs:complexType>
+
+                                            <xs:sequence>
+
+                                                <xs:element type="xs:string" name="name"/>
+
+                                                <xs:element type="xs:string" name="value"/>
+
+                                            </xs:sequence>
+
+                                        </xs:complexType>
+
+                                    </xs:element>
+
+                                </xs:sequence>
+
+                            </xs:complexType>
+
+                        </xs:element>
+
+
+                        <xs:element type="xs:string" name="primaryTrxPcid" minOccurs="0"/>
+
+                    </xs:all>
+
+                </xs:extension>
+
+            </xs:complexContent>
+
+        </xs:complexType>
+
+    </xs:element>
+
+
+    <xs:element name="register-payment-response">
+
+        <xs:complexType>
+
+            <xs:complexContent>
+
+                <xs:extension base="merchant-response">
+
+                    <xs:all>
+
+                        <xs:element name="result">
+
+                            <xs:complexType>
+
+                                <xs:all>
+
+                                    <xs:element type="xs:int" name="code"/>
+
+                                    <xs:element type="xs:string" name="desc" minOccurs="0"/>
+
+                                </xs:all>
+
+                            </xs:complexType>
+
+                        </xs:element>
+
+                    </xs:all>
+
+                </xs:extension>
+
+            </xs:complexContent>
+
+        </xs:complexType>
+
+    </xs:element>
+
+
+    <xs:complexType name="merchant-response" abstract="true">
+
+        <xs:sequence/>
+
+    </xs:complexType>
+
+
+</xs:schema>

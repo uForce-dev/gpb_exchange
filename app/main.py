@@ -1,7 +1,9 @@
 import logging
 import uuid
 import xml.etree.ElementTree as ET
-from datetime import datetime
+from typing import Any
+
+from lxml import etree
 from pathlib import Path
 
 from flask import Flask, request, Response
@@ -16,6 +18,14 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
+
+def validate_xml(xml_string: str | Path, xsd_path: str | Path) -> [bool, tuple[Any, Any]]:
+    with open(xsd_path, "rb") as xsd_file:
+        schema_root = etree.XML(xsd_file.read())
+        schema = etree.XMLSchema(schema_root)
+
+    xml_doc = etree.fromstring(xml_string)
+    return schema.validate(xml_doc), schema.error_log
 
 
 def create_cpa_res(
@@ -100,6 +110,10 @@ def check_avail():
         },
     )
 
+    is_valid, errors = validate_xml(xml_response, BASE_DIR / "schema.xsd")
+    if not is_valid:
+        return Response(f"Invalid XML: {errors}", status=400, mimetype="text/plain")
+
     return Response(xml_response, mimetype="application/xml")
 
 
@@ -113,6 +127,10 @@ def payment_reg():
         result_code=1,
         result_desc="OK",
     )
+
+    is_valid, errors = validate_xml(xml_response, BASE_DIR / "schema.xsd")
+    if not is_valid:
+        return Response(f"Invalid XML: {errors}", status=400, mimetype="text/plain")
 
     return Response(xml_response, mimetype="application/xml")
 
