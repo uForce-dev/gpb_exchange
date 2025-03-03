@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
-def validate_xml(xml_string: Union[str, Path], xsd_path: Union[str, Path]) -> Union[bool, tuple[Any, Any]]:
+def validate_xml(xml_string, xsd_path):
     with open(xsd_path, "rb") as xsd_file:
         schema_root = etree.XML(xsd_file.read())
         schema = etree.XMLSchema(schema_root)
